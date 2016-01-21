@@ -1,26 +1,30 @@
-import os, random
+import os
+import actions as ac
 
 print "\ncurrent directory:", os.listdir('.'), "\n"
 
 draftcount = 0
 draft_name = ''
 
+
 for draft in os.listdir("output/automated-drafts"):
     if draft.startswith("autodraft"):
+        # print draft
         draftcount += 1
 
-draft_name = "autodraft" + str(draftcount) + ".txt"
+draft_name = "output/automated-drafts/autodraft" + str(draftcount) + ".txt"
 
-
+def ghostwrite(inspiration):
+    with open(draft_name, "w") as latest_draft:
+        latest_draft.write(inspiration)
+        print "wrote " + draft_name
 
 
 vein = open("assets/thesis-source-material.txt")
-# print vein.read()
 
-plasma = list(vein)
-random.shuffle(plasma)
-transfusion = ''.join(plasma)
+# transfused = ac.rearrange_lines(vein)
+transfused = ac.garble(vein, 1)
 
-latest_draft = open(draft_name, "w")
-latest_draft.write(transfusion)
-print "wrote " + draft_name
+ghostwrite(transfused)
+
+print transfused
