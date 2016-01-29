@@ -29,7 +29,8 @@ def garble(sample, sz):
         cleaned = re.sub("[^a-zA-Z]", "", sample)
         plasma = list(cleaned)
         random.shuffle(plasma)
-        transfusion = " ".join(plasma)
+        transfusion = plasma
+
     elif sz == 2:
         sounds = r"[aeiouAEIOU][b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z]|[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z][aeiouAEIOU]"
         for match in re.finditer(sounds, sample):
@@ -37,7 +38,8 @@ def garble(sample, sz):
             # print match.group(0)
         random.shuffle(plasma)
         # print plasma
-        transfusion = " ".join(plasma)
+        transfusion = plasma
+
     elif sz == 3:
         sounds = vow + con + vow + "|" + con + vow + con + "|" + two + "|" + twoend
         sounds += "|" + vow + vow + con + "|" + con + vow + vow
@@ -48,8 +50,9 @@ def garble(sample, sz):
             # print nugget
         random.shuffle(plasma)
         # print plasma
-        transfusion = " ".join(plasma)
+        transfusion = plasma
     elif sz == 4:
+
         sounds = vow + con + vow + pun + "|" + con + vow + con + pun
         sounds += "|" + vow + vow + con + pun + "|" + con + vow + vow + pun
 
@@ -64,7 +67,8 @@ def garble(sample, sz):
 
         random.shuffle(plasma)
         # print plasma
-        transfusion = " ".join(plasma)
+        transfusion = plasma
+
     elif sz >= 5:
         sounds = let +"{"+ str(sz-1) +"}"+ pun
         sounds += "|" + let + "{"+ str(sz) +"}"
@@ -75,7 +79,7 @@ def garble(sample, sz):
 
         random.shuffle(plasma)
         # print plasma
-        transfusion = " ".join(plasma)
+        transfusion = plasma
 
 
     return transfusion
@@ -95,12 +99,15 @@ def peetree(sample):
     transfusion = "\n".join(plasma)
     return transfusion
 
-def leaver(one, two, howfarthrough, spacing=1, ramp=True):
-    print one, "\n", two
+def rumplestiltskin(one, two, howfarthrough, ramp=True):
+    # print one, "\n", two
+    spacing = 1
+    tightness = 15
 
     start = int(howfarthrough * len(one))
 
-    print "index of start: ", start
+    remainder = len(one) - start
+    spacing = remainder / tightness
 
     keeptracker = start
 
@@ -109,9 +116,14 @@ def leaver(one, two, howfarthrough, spacing=1, ramp=True):
             one.insert(keeptracker, nugget)
             keeptracker += spacing
             if ramp == True:
-                if spacing > 1: spacing -= 1
+                if spacing > 1: spacing = int(round(remainder/tightness))
+                # if spacing > 1: spacing -= 1
+                if spacing == 0: spacing = 1
+                remainder = len(one) - keeptracker
+                print remainder, spacing
         else:
             one.append(nugget)
         keeptracker += 1
 
-    print one
+    print "------------"
+    return one
